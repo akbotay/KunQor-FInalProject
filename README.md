@@ -39,7 +39,7 @@ streamlit run kunqor_app.py
 ```
 
 ### 3. Get your free Groq API key
-Go to [console.groq.com](https://console.groq.com) → Sign up → Create API Key (free, takes 1 minute)
+Go to [console.groq.com](https://console.groq.com)
 
 ---
 
