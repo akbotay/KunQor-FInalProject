@@ -3,14 +3,12 @@ from groq import Groq
 import json
 from datetime import date
 
-# ── Page Config ────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="KunQor — Daily Life AI",
     page_icon="✦",
     layout="centered"
 )
 
-# ── Custom CSS ─────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
     .tip-box {
@@ -24,7 +22,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ── Groq AI Function ───────────────────────────────────────────────────────
 def ask_groq(prompt: str) -> dict:
     api_key = st.session_state.get("groq_api_key", "")
     if not api_key:
@@ -51,7 +48,6 @@ def ask_groq(prompt: str) -> dict:
         st.error(f"Error: {e}")
         return {}
 
-# ── Session State ──────────────────────────────────────────────────────────
 if "goals" not in st.session_state:
     st.session_state.goals = [
         {"text": "Drink 8 glasses of water", "done": False},
@@ -59,7 +55,6 @@ if "goals" not in st.session_state:
         {"text": "Sleep before 11 PM", "done": False},
     ]
 
-# ── Sidebar ────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("### ✦ KunQor")
     st.markdown("*Daily Life Quality AI*")
@@ -76,19 +71,14 @@ with st.sidebar:
     st.markdown(f"**Progress: {pct}%**")
     st.progress(pct / 100)
 
-# ── Header ─────────────────────────────────────────────────────────────────
 st.markdown("## ✦ KunQor — Daily Life Quality")
 st.markdown(f"*{date.today().strftime('%A, %B %d, %Y')}*")
 st.divider()
 
-# ── Tabs ───────────────────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "🎯 Goals", "🕐 Daily Routine", "💪 Health", "🌿 Ecology", "🤖 AI Advice"
 ])
 
-# ══════════════════════════════════════════════════════════════════════════
-# TAB 1 — GOALS
-# ══════════════════════════════════════════════════════════════════════════
 with tab1:
     st.markdown("### Today's Goals")
     for i, goal in enumerate(st.session_state.goals):
@@ -121,9 +111,6 @@ with tab1:
     c3.metric("📊 Progress", f"{pct}%")
     st.progress(pct / 100)
 
-# ══════════════════════════════════════════════════════════════════════════
-# TAB 2 — DAILY ROUTINE
-# ══════════════════════════════════════════════════════════════════════════
 with tab2:
     st.markdown("### Daily Routine Analyzer")
     c1, c2 = st.columns(2)
@@ -154,9 +141,6 @@ Respond ONLY with JSON: {{"score": 75, "verdict": "Needs improvement", "problems
                     for t in r.get("tips", []): st.markdown(f"- {t}")
                 st.info(f"🗓️ Tomorrow: {r.get('tomorrow_plan')}")
 
-# ══════════════════════════════════════════════════════════════════════════
-# TAB 3 — HEALTH
-# ══════════════════════════════════════════════════════════════════════════
 with tab3:
     st.markdown("### Health Tracker")
     c1, c2 = st.columns(2)
@@ -189,9 +173,6 @@ Respond ONLY with JSON: {{"overall_score": 70, "water_ok": false, "water_msg": "
                         st.metric(f"{label} {'✅' if ok else '⚠️'}", val, msg)
                 st.info(f"💡 {r.get('main_tip')}")
 
-# ══════════════════════════════════════════════════════════════════════════
-# TAB 4 — ECOLOGY
-# ══════════════════════════════════════════════════════════════════════════
 with tab4:
     st.markdown("### Ecology Checker")
     city = st.selectbox("🏙️ Your city", ["Almaty", "Astana", "Shymkent", "Karaganda"])
@@ -211,10 +192,6 @@ Respond ONLY with JSON: {{"aqi": 85, "aqi_label": "Moderate", "container": "Yell
                 st.markdown(f"📍 **Drop-off:** {r.get('drop_off')}")
                 st.markdown(f"⏳ **Decomposes in:** {r.get('decompose_years')}")
                 st.info(f"🌱 {r.get('eco_tip')}")
-
-# ══════════════════════════════════════════════════════════════════════════
-# TAB 5 — AI ADVICE
-# ══════════════════════════════════════════════════════════════════════════
 with tab5:
     st.markdown("### AI Personal Coach")
     st.markdown("Tell the AI what's bothering you — get a personal action plan.")
@@ -238,7 +215,6 @@ Respond ONLY with JSON: {{"title": "Problem title", "diagnosis": "2 sentence ana
                             st.markdown(step.get("action"))
                     st.success(f"✨ {r.get('motivation')}")
 
-# ── Footer ─────────────────────────────────────────────────────────────────
 st.divider()
 st.markdown(
     "<center><small>KunQor — Daily Life Quality AI · Streamlit + Groq API</small></center>",
